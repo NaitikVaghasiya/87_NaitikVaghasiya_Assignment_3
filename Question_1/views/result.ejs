@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Profile Summary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #080d1a;
+            --bg-card: #0f172a;
+            --bg-subtle: #131e36;
+            --border-color: #1e2d4d;
+            --primary-blue: #2563eb;
+            --primary-hover: #1d4ed8;
+            --accent-cyan: #38bdf8;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --shadow-glow: 0 0 25px rgba(37, 99, 235, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 40%);
+        }
+
+        .summary-container {
+            width: 100%;
+            max-width: 780px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1d4ed8, #3b82f6, #38bdf8);
+        }
+
+        .badge-success {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .summary-title {
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .summary-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .details-table th,
+        .details-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .details-table th {
+            background: #111c38;
+            color: var(--accent-cyan);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            width: 32%;
+        }
+
+        .details-table td {
+            background: var(--bg-card);
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .details-table tr:hover td {
+            background: var(--bg-subtle);
+        }
+
+        .image-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #0b1326;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .image-card img {
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            max-width: 160px;
+            max-height: 140px;
+        }
+
+        .gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-blue);
+            color: #ffffff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-back {
+            display: inline-block;
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+        }
+
+        .empty-text {
+            color: var(--text-dim);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="summary-container">
+        <span class="badge-success">Verification Complete • Registration Success</span>
+        <h1 class="summary-title">Profile Record Summary</h1>
+        <p class="summary-subtitle">All submission attributes and uploaded assets have been validated and saved.</p>
+
+        <table class="details-table">
+            <tr>
+                <th>Profile Field</th>
+                <th>Verified Value</th>
+            </tr>
+            <tr>
+                <td>Account Username</td>
+                <td><strong><%= user.username %></strong></td>
+            </tr>
+            <tr>
+                <td>Registered Email</td>
+                <td><%= user.email %></td>
+            </tr>
+            <tr>
+                <td>Gender Identification</td>
+                <td><%= user.gender %></td>
+            </tr>
+            <tr>
+                <td>Selected Hobbies</td>
+                <td>
+                    <%= Array.isArray(user.hobbies) ? user.hobbies.join(", ") : user.hobbies %>
+                </td>
+            </tr>
+            <tr>
+                <td>Profile Picture</td>
+                <td>
+                    <% if (profilePic) { %>
+                        <div class="image-card">
+                            <img src="/uploads/<%= profilePic %>" alt="Profile Picture">
+                            <a href="/download/<%= profilePic %>" class="btn-download">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Download Picture
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <span class="empty-text">No profile photo provided</span>
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td>Gallery Attachments</td>
+                <td>
+                    <% if (otherPics && otherPics.length > 0) { %>
+                        <div class="gallery-grid">
+                            <% otherPics.forEach((pic, index) => { %>
+                                <div class="image-card">
+                                    <img src="/uploads/<%= pic %>" alt="Gallery Image <%= index + 1 %>">
+                                    <a href="/download/<%= pic %>" class="btn-download">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        Download #<%= index + 1 %>
+                                    </a>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } else { %>
+                        <span class="empty-text">No supporting images uploaded</span>
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+
+        <a href="/" class="btn-back">
+            &larr; Submit Another Registration
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard • File Session Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #080d1a;
+            --bg-card: #0f172a;
+            --bg-input: #0a1124;
+            --border-color: #1e2d4d;
+            --border-focus: #3b82f6;
+            --primary-blue: #2563eb;
+            --primary-hover: #1d4ed8;
+            --accent-cyan: #38bdf8;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --shadow-glow: 0 0 30px rgba(37, 99, 235, 0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 15% 25%, rgba(37, 99, 235, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(56, 189, 248, 0.08) 0%, transparent 45%);
+        }
+
+        .portal-card {
+            width: 100%;
+            max-width: 540px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1d4ed8, #3b82f6, #38bdf8);
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            margin-bottom: 16px;
+        }
+
+        .title {
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .welcome-msg {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .welcome-msg strong {
+            color: var(--accent-cyan);
+        }
+
+        .info-box {
+            background: #0b1326;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 28px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(30, 45, 77, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+        }
+
+        .info-val {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-blue:hover {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal-card">
+        <div class="badge-pill">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;"></span>
+            Protected Route 01 • Active File Session
+        </div>
+        
+        <h1 class="title">User Dashboard</h1>
+        <p class="welcome-msg">Welcome, <strong><%= username %></strong>! You have securely authenticated through the file session store.</p>
+
+        <div class="info-box">
+            <div class="info-row">
+                <span class="info-label">Active Session Store</span>
+                <span class="info-val">session-file-store (Local Disk)</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Route Status</span>
+                <span class="info-val">Protected Route 1 Verified</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Current Identity</span>
+                <span class="info-val"><%= username %></span>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <a href="/profile" class="btn-action btn-blue">
+                Go to Profile (Route 2) &rarr;
+            </a>
+            <a href="/logout" class="btn-action btn-outline">
+                Sign Out / Logout
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
