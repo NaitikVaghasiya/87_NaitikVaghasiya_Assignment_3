@@ -2,455 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration Portal</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>User Registration</title>
     <style>
-        :root {
-            --bg-main: #080d1a;
-            --bg-card: #0f172a;
-            --bg-card-hover: #131e36;
-            --bg-input: #0a1124;
-            --border-color: #1e2d4d;
-            --border-focus: #3b82f6;
-            --primary-blue: #2563eb;
-            --primary-hover: #1d4ed8;
-            --accent-cyan: #38bdf8;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-dim: #64748b;
-            --error-bg: rgba(239, 68, 68, 0.1);
-            --error-border: rgba(239, 68, 68, 0.4);
-            --error-text: #fca5a5;
-            --shadow-glow: 0 0 25px rgba(37, 99, 235, 0.2);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 40%);
+            background-color: #0b1120;
+            color: #f8fafc;
+            font-family: Arial, sans-serif;
+            padding: 30px;
         }
-
-        .portal-container {
-            width: 100%;
-            max-width: 680px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
+        h2 {
+            color: #38bdf8;
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 8px;
         }
-
-        .portal-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #1d4ed8, #3b82f6, #38bdf8);
+        .error-box {
+            background-color: #1e1b4b;
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            max-width: 550px;
         }
-
-        .portal-header {
-            margin-bottom: 30px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            background: rgba(37, 99, 235, 0.15);
-            color: var(--accent-cyan);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            margin-bottom: 12px;
-        }
-
-        .portal-title {
-            font-size: 1.85rem;
-            font-weight: 700;
+        input[type="text"], input[type="password"], input[type="file"] {
+            background-color: #1e293b;
             color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
+            border: 1px solid #3b82f6;
+            padding: 8px 12px;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
         }
-
-        .portal-subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
+        button {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 4px;
+            cursor: pointer;
         }
-
-        .alert-error {
-            background: var(--error-bg);
-            border: 1px solid var(--error-border);
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin-bottom: 25px;
+        button:hover {
+            background-color: #1d4ed8;
         }
-
-        .alert-title {
-            color: #f87171;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .alert-list {
-            padding-left: 20px;
-            color: var(--error-text);
-            font-size: 0.88rem;
-        }
-
-        .alert-list li {
-            margin-bottom: 4px;
-        }
-
-        .form-section-title {
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--accent-cyan);
-            margin: 24px 0 14px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid rgba(30, 45, 77, 0.8);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-
         label {
-            display: block;
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .input-text {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 14px;
-            color: var(--text-light);
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            outline: none;
-        }
-
-        .input-text:focus {
-            border-color: var(--border-focus);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
-            background: #0d162e;
-        }
-
-        .input-text::placeholder {
-            color: var(--text-dim);
-        }
-
-        .options-row {
-            display: flex;
-            gap: 20px;
-            padding: 10px 0;
-            flex-wrap: wrap;
-        }
-
-        .custom-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            color: var(--text-light);
-            font-size: 0.92rem;
-            user-select: none;
-        }
-
-        .custom-option input[type="radio"],
-        .custom-option input[type="checkbox"] {
-            accent-color: var(--primary-blue);
-            width: 17px;
-            height: 17px;
-            cursor: pointer;
-        }
-
-        .file-upload-box {
-            background: var(--bg-input);
-            border: 1px dashed var(--border-color);
-            border-radius: 10px;
-            padding: 16px;
-            transition: all 0.2s ease;
-        }
-
-        .file-upload-box:hover {
-            border-color: var(--border-focus);
-            background: #0d162e;
-        }
-
-        .file-upload-box input[type="file"] {
-            width: 100%;
-            color: var(--text-muted);
-            font-size: 0.88rem;
-            cursor: pointer;
-        }
-
-        .file-upload-box input[type="file"]::file-selector-button {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
-            color: #ffffff;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.82rem;
-            font-weight: 500;
-            margin-right: 12px;
-            transition: background 0.2s ease;
-        }
-
-        .file-upload-box input[type="file"]::file-selector-button:hover {
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-        }
-
-        .file-hint {
-            display: block;
-            margin-top: 6px;
-            font-size: 0.78rem;
-            color: var(--text-dim);
-        }
-
-        .btn-submit {
-            width: 100%;
-            margin-top: 26px;
-            background: linear-gradient(135deg, #1d4ed8, #2563eb);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
-            letter-spacing: 0.02em;
-        }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-            transform: translateY(-1px);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        @media (max-width: 600px) {
-            .portal-container {
-                padding: 24px;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width {
-                grid-column: span 1;
-            }
+            font-weight: bold;
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
 
-    <div class="portal-container">
-        <div class="portal-header">
-            <span class="badge">Question 01 • Express & Multer</span>
-            <h1 class="portal-title">User Registration Portal</h1>
-            <p class="portal-subtitle">Please complete all required fields and upload your media credentials for verification.</p>
+    <h2>User Registration Form</h2>
+
+    <% if (errors && errors.length > 0) { %>
+        <div class="error-box">
+            <strong>Errors:</strong>
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
         </div>
+    <% } %>
 
-        <% if (errors && errors.length > 0) { %>
-            <div class="alert-error">
-                <div class="alert-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                    Validation Attention Required
-                </div>
-                <ul class="alert-list">
-                    <% errors.forEach(error => { %>
-                        <li><%= error.msg %></li>
-                    <% }) %>
-                </ul>
-            </div>
-        <% } %>
+    <form action="/register" method="POST" enctype="multipart/form-data">
+        
+        <p>
+            <label>Username:</label><br>
+            <input type="text" name="username" value="<%= old.username || '' %>">
+        </p>
 
-        <form action="/register" method="POST" enctype="multipart/form-data">
-            
-            <div class="form-section-title">Account Credentials</div>
-            <div class="form-grid">
-                <div class="form-group full-width">
-                    <label>Username</label>
-                    <input 
-                        type="text" 
-                        name="username" 
-                        class="input-text" 
-                        placeholder="Choose unique username" 
-                        value="<%= old.username || '' %>"
-                    >
-                </div>
+        <p>
+            <label>Password:</label><br>
+            <input type="password" name="password">
+        </p>
 
-                <div class="form-group">
-                    <label>Security Password</label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        class="input-text" 
-                        placeholder="Enter password (min 6 chars)"
-                    >
-                </div>
+        <p>
+            <label>Confirm Password:</label><br>
+            <input type="password" name="confirmPassword">
+        </p>
 
-                <div class="form-group">
-                    <label>Confirm Security Password</label>
-                    <input 
-                        type="password" 
-                        name="confirmPassword" 
-                        class="input-text" 
-                        placeholder="Re-enter password"
-                    >
-                </div>
+        <p>
+            <label>Email:</label><br>
+            <input type="text" name="email" value="<%= old.email || '' %>">
+        </p>
 
-                <div class="form-group full-width">
-                    <label>Email Address</label>
-                    <input 
-                        type="text" 
-                        name="email" 
-                        class="input-text" 
-                        placeholder="e.g. user@organization.com" 
-                        value="<%= old.email || '' %>"
-                    >
-                </div>
-            </div>
+        <p>
+            <label>Gender:</label><br>
+            <input type="radio" name="gender" value="Male" <%= old.gender === "Male" ? "checked" : "" %>> Male
+            &nbsp;&nbsp;
+            <input type="radio" name="gender" value="Female" <%= old.gender === "Female" ? "checked" : "" %>> Female
+        </p>
 
-            <div class="form-section-title">Demographics & Preferences</div>
-            <div class="form-group">
-                <label>Gender Identification</label>
-                <div class="options-row">
-                    <label class="custom-option">
-                        <input 
-                            type="radio" 
-                            name="gender" 
-                            value="Male" 
-                            <%= old.gender === "Male" ? "checked" : "" %>
-                        >
-                        <span>Male</span>
-                    </label>
-                    <label class="custom-option">
-                        <input 
-                            type="radio" 
-                            name="gender" 
-                            value="Female" 
-                            <%= old.gender === "Female" ? "checked" : "" %>
-                        >
-                        <span>Female</span>
-                    </label>
-                </div>
-            </div>
+        <p>
+            <label>Hobbies:</label><br>
+            <input type="checkbox" name="hobbies" value="Reading" <%= Array.isArray(old.hobbies) && old.hobbies.includes("Reading") ? "checked" : "" %>> Reading
+            &nbsp;&nbsp;
+            <input type="checkbox" name="hobbies" value="Music" <%= Array.isArray(old.hobbies) && old.hobbies.includes("Music") ? "checked" : "" %>> Music
+            &nbsp;&nbsp;
+            <input type="checkbox" name="hobbies" value="Sports" <%= Array.isArray(old.hobbies) && old.hobbies.includes("Sports") ? "checked" : "" %>> Sports
+        </p>
 
-            <div class="form-group">
-                <label>Hobbies & Interests</label>
-                <div class="options-row">
-                    <label class="custom-option">
-                        <input 
-                            type="checkbox" 
-                            name="hobbies" 
-                            value="Reading" 
-                            <%= Array.isArray(old.hobbies) && old.hobbies.includes("Reading") ? "checked" : "" %>
-                        >
-                        <span>Reading</span>
-                    </label>
-                    <label class="custom-option">
-                        <input 
-                            type="checkbox" 
-                            name="hobbies" 
-                            value="Music" 
-                            <%= Array.isArray(old.hobbies) && old.hobbies.includes("Music") ? "checked" : "" %>
-                        >
-                        <span>Music</span>
-                    </label>
-                    <label class="custom-option">
-                        <input 
-                            type="checkbox" 
-                            name="hobbies" 
-                            value="Sports" 
-                            <%= Array.isArray(old.hobbies) && old.hobbies.includes("Sports") ? "checked" : "" %>
-                        >
-                        <span>Sports</span>
-                    </label>
-                </div>
-            </div>
+        <p>
+            <label>Upload Profile Picture (Single):</label><br>
+            <input type="file" name="profilePic" accept=".jpg,.jpeg,.png">
+        </p>
 
-            <div class="form-section-title">Document & Media Uploads</div>
-            <div class="form-group">
-                <label>Primary Profile Picture (Single File)</label>
-                <div class="file-upload-box">
-                    <input 
-                        type="file" 
-                        name="profilePic" 
-                        accept=".jpg,.jpeg,.png"
-                    >
-                    <span class="file-hint">Supported formats: JPG, JPEG, PNG (Max 2MB)</span>
-                </div>
-            </div>
+        <p>
+            <label>Upload Other Pictures (Multiple):</label><br>
+            <input type="file" name="otherPics" multiple accept=".jpg,.jpeg,.png">
+        </p>
 
-            <div class="form-group">
-                <label>Supporting Gallery Documents (Multiple Files)</label>
-                <div class="file-upload-box">
-                    <input 
-                        type="file" 
-                        name="otherPics" 
-                        multiple 
-                        accept=".jpg,.jpeg,.png"
-                    >
-                    <span class="file-hint">Select up to 5 supporting image files</span>
-                </div>
-            </div>
+        <br>
+        <button type="submit">Register</button>
 
-            <button type="submit" class="btn-submit">
-                Complete Registration & Submit
-            </button>
-        </form>
-    </div>
+    </form>
 
 </body>
 </html>
